@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<math title="sin^(-1)(x)">
+  <mstyle mathsize="1em" mathcolor="blue" fontfamily="serif" displaystyle="true">
+    <msup>
+      <mo>sin</mo>
+      <mrow>
+        <mo>-</mo>
+        <mn>1</mn>
+      </mrow>
+    </msup>
+    <mrow>
+      <mo>(</mo>
+      <mi>x</mi>
+      <mo>)</mo>
+    </mrow>
+  </mstyle>
+</math>

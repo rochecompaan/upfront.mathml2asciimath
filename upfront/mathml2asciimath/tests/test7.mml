@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE math [
+  <!ENTITY rarr "&#8594;">
+]>
+<math title="d/dxf(x)=lim_(h-&gt;0)(f(x+h)-f(x))/h">
+  <mstyle mathsize="1em" mathcolor="blue" fontfamily="serif" displaystyle="true">
+
+    <mfrac>
+      <mi>d</mi>
+      <mrow>
+        <mi>d</mi>
+        <mi>x</mi>
+      </mrow>
+    </mfrac>
+
+    <mrow>
+      <mi>f</mi>
+      <mrow>
+        <mo>(</mo>
+        <mi>x</mi>
+        <mo>)</mo>
+      </mrow>
+    </mrow>
+    <mo>=</mo>
+    <munder>
+      <mo>lim</mo>
+      <mrow>
+        <mi>h</mi>
+        <mo>&rarr;</mo>
+        <mn>0</mn>
+      </mrow>
+    </munder>
+    <mfrac>
+      <mrow>
+        <mrow>
+          <mi>f</mi>
+          <mrow>
+            <mo>(</mo>
+            <mi>x</mi>
+            <mo>+</mo>
+            <mi>h</mi>
+            <mo>)</mo>
+          </mrow>
+        </mrow>
+        <mo>-</mo>
+        <mrow>
+          <mi>f</mi>
+          <mrow>
+            <mo>(</mo>
+            <mi>x</mi>
+            <mo>)</mo>
+          </mrow>
+        </mrow>
+      </mrow>
+      <mi>h</mi>
+    </mfrac>
+  </mstyle>
+</math>

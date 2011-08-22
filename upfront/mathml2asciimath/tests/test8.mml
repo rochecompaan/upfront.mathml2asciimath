@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<math title="AA x in CC (sin^2x+cos^2x=1)">
+  <mstyle mathsize="1em" mathcolor="blue" fontfamily="serif" displaystyle="true">
+    <mo>&#x2200;</mo>
+    <mi>x</mi>
+    <mo>&#x2208;</mo>
+    <mo>&#x2102;</mo>
+    <mrow>
+      <mo>(</mo>
+      <msup>
+        <mo>sin</mo>
+        <mn>2</mn>
+      </msup>
+      <mi>x</mi>
+      <mo>+</mo>
+      <msup>
+        <mo>cos</mo>
+        <mn>2</mn>
+      </msup>
+      <mi>x</mi>
+      <mo>=</mo>
+      <mn>1</mn>
+    </mrow>
+  </mstyle>
+</math>

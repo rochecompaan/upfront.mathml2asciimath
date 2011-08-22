@@ -1,0 +1,36 @@
+<math title="x_(1,2)=(-b+-sqrt(b^2-4a c))/(2a)">
+  <mstyle mathsize="1em" mathcolor="blue" fontfamily="serif" displaystyle="true">
+    <msub>
+      <mi>x</mi>
+      <mrow>
+        <mn>1</mn>
+        <mo>,</mo>
+        <mn>2</mn>
+      </mrow>
+    </msub>
+    <mo>=</mo>
+    <mfrac>
+      <mrow>
+        <mo>-</mo>
+        <mi>b</mi>
+        <mo>&#xB1;</mo>
+        <msqrt>
+          <mrow>
+            <msup>
+              <mi>b</mi>
+              <mn>2</mn>
+            </msup>
+            <mo>-</mo>
+            <mn>4</mn>
+            <mi>a</mi>
+            <mi>c</mi>
+          </mrow>
+        </msqrt>
+      </mrow>
+      <mrow>
+        <mn>2</mn>
+        <mi>a</mi>
+      </mrow>
+    </mfrac>
+  </mstyle>
+</math>
