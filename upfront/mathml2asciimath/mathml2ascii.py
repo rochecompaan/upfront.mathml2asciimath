@@ -13,6 +13,8 @@ class Element:
         self.parent = parent
         self.children = []
 
+tags_handled = ("math", "mrow", "mo", "mi", "mn", "mfrac", "msub",
+    "msup", "munder", "msqrt")
 
 class MathMLHandler(sax.ContentHandler):
     """ SAX ContentHandler for converting MathML to ASCIIMath.
@@ -26,6 +28,7 @@ class MathMLHandler(sax.ContentHandler):
 
     def startElementNS(self, name, qname, attributes):
         name = name[-1]
+        self.skip = name not in tags_handled
         parent = self.stack and self.stack[-1] or None
         e = Element(name, parent)
         self.currentNode = e
@@ -46,6 +49,8 @@ class MathMLHandler(sax.ContentHandler):
             
 
     def endElementNS(self, name, qname): 
+        if self.skip:
+            return
         name = name[-1]
         currentNode = self.stack.pop()
         self.previousNode = currentNode
@@ -62,7 +67,7 @@ class MathMLHandler(sax.ContentHandler):
 
 
     def characters(self, content):
-        if content in "()":
+        if self.skip or content in "()":
             return
         if self.currentNode.name == 'mo' and symbolmap.has_key(content):
             self.output += symbolmap.get(content)
