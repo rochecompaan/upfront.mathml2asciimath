@@ -1,5 +1,8 @@
 import re
 import sys
+import string
+import urllib
+import argparse
 from xml import sax
 from xml.sax.saxutils import XMLGenerator
 from cStringIO import StringIO
@@ -15,6 +18,10 @@ class Element:
 
 tags_handled = ("math", "mrow", "mo", "mi", "mn", "mfrac", "msub",
     "msup", "munder", "msqrt")
+
+atoms = symbolmap.values()
+atoms.extend(d for d in string.digits)
+atoms.extend(['+', '-', '='])
 
 class MathMLHandler(sax.ContentHandler):
     """ SAX ContentHandler for converting MathML to ASCIIMath.
@@ -35,18 +42,10 @@ class MathMLHandler(sax.ContentHandler):
         if parent:
             parent.children.append(e)
         self.stack.append(e)
-        if name == 'mrow':
+        if name == "msqrt":
+            self.output += "sqrt("
+        if name == "mrow" and parent.name in ("mfrac", "msub", "munder"):
             self.output += "("
-        elif name == "msqrt":
-            self.output += "sqrt"
-        if self.previousNode:
-            if name in ('mi', 'mn') and self.previousNode.name == 'mfrac':
-                self.output += " "
-            if name in ('mi', 'mo') and \
-                    self.previousNode.name in ('mi', 'mo') and \
-                    parent.name != 'mfrac':
-                self.output += " "
-            
 
     def endElementNS(self, name, qname): 
         if self.skip:
@@ -56,23 +55,32 @@ class MathMLHandler(sax.ContentHandler):
         self.previousNode = currentNode
         parent = currentNode.parent
         parentname = parent and parent.name or ""
-        if name in ('mrow',):
-            self.output += ")"
         if parentname == "msup" and len(parent.children) == 1:
             self.output += "^"
         if parentname in ("msub", "munder") and len(parent.children) == 1:
             self.output += "_"
+        if name == "mrow" and parent.name in ("mfrac", "msub", "munder"):
+            self.output += ")"
         if parentname == "mfrac" and len(parent.children) == 1:
             self.output += "/"
-
+        if name == "msqrt":
+            self.output += ")"
 
     def characters(self, content):
-        if self.skip or content in "()":
+        if self.skip:
             return
-        if self.currentNode.name == 'mo' and symbolmap.has_key(content):
-            self.output += symbolmap.get(content)
-        else:
-            self.output += content
+        key = (self.currentNode.name, content)
+        content = symbolmap.get(key, content)
+        prevchar = self.output and self.output[-1] or ""
+        symbol = prevchar + content 
+        if prevchar and symbol not in atoms and \
+                        content not in atoms and \
+                        prevchar not in atoms:
+            self.output += ' '
+        # pad in with spaces
+        if content in ('in', '!in'):
+            content = ' %s ' % content
+        self.output += content
 
 def convert(mathml):
     handler = MathMLHandler()
@@ -87,3 +95,16 @@ def convert(mathml):
     parser.parse(StringIO(mathml))
 
     return handler.output
+
+def main():
+    parser = argparse.ArgumentParser(description='Convert MathML to ASCIIMath')
+    parser.add_argument('file', help='/path/to/file') 
+    args = parser.parse_args()
+
+    mathml = urllib.urlopen(args.file).read()
+
+    print convert(mathml)
+
+if __name__ == '__main__':
+    main()
+

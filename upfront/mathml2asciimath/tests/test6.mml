@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<math title="sin^(-1)(x)">
+<math title="sin^-1(x)">
   <mstyle mathsize="1em" mathcolor="blue" fontfamily="serif" displaystyle="true">
     <msup>
       <mo>sin</mo>

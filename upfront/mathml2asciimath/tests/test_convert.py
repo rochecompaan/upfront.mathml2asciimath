@@ -25,7 +25,9 @@ class TestConvert(unittest.TestCase):
             dom = parseString(mathml)
             mathnode = dom.getElementsByTagName('math')[0]
             asciimath = mathnode.getAttribute('title')
-            self.assertEqual(asciimath, convert(mathml))
+            converted = convert(mathml)
+            self.assertEqual(asciimath, converted,
+                "%s != %s (%s)" % (asciimath, converted, filename))
 
 
 

@@ -2,7 +2,7 @@
 <!DOCTYPE math [
   <!ENTITY rarr "&#8594;">
 ]>
-<math title="d/dxf(x)=lim_(h-&gt;0)(f(x+h)-f(x))/h">
+<math title="d/(dx)f(x)=lim_(h-&gt;0)(f(x+h)-f(x))/h">
   <mstyle mathsize="1em" mathcolor="blue" fontfamily="serif" displaystyle="true">
 
     <mfrac>

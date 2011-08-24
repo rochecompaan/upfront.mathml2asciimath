@@ -1,4 +1,4 @@
-<math title="(x+b/(2a))^2=(b^2)/(4a^2)-c/a.">
+<math title="(x+b/(2a))^2=(b^2)/(4a^2)-c/a">
   <mstyle mathsize="1em" mathcolor="blue" fontfamily="serif" displaystyle="true">
     <msup>
       <mrow>
@@ -37,6 +37,5 @@
       <mi>c</mi>
       <mi>a</mi>
     </mfrac>
-    <mo>.</mo>
   </mstyle>
 </math>
