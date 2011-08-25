@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <semantics>
+    <mrow>
+      <mrow>
+        <mrow>
+          <msup>
+            <mi>x</mi>
+            <mn>2</mn>
+          </msup>
+          <mo>+</mo>
+          <msup>
+            <mi>y</mi>
+            <mn>2</mn>
+          </msup>
+        </mrow>
+        <mi>&#8722;</mi>
+        <mn>52</mn>
+      </mrow>
+      <mi>=</mi>
+      <mn>0</mn>
+    </mrow>
+    <annotation>x^2 + y^2 - 52 = 0\n</annotation>
+  </semantics>
+</math>

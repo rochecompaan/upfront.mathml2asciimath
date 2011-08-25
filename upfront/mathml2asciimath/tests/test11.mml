@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <semantics>
+    <mfrac>
+      <mrow>
+        <mi>Area</mi>
+        <mi>of</mi>
+        <mo>&#x394;</mo>
+        <mi>XQR</mi>
+      </mrow>
+      <mrow>
+        <mi>Area</mi>
+        <mi>of</mi>
+        <mo>&#x394;</mo>
+        <mi>XYR</mi>
+      </mrow>
+    </mfrac>
+    <annotation>{Area of %DELTA XQR}over {Area of %DELTA XYR}</annotation>
+  </semantics>
+</math>
