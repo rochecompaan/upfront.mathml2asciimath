@@ -31,6 +31,7 @@ class MathMLHandler(sax.ContentHandler):
         self.output = ""
         self.currentNode = None
         self.previousNode = None
+        self.prevchar = ""
         self.stack = []
 
     def startElementNS(self, name, qname, attributes):
@@ -43,9 +44,13 @@ class MathMLHandler(sax.ContentHandler):
             parent.children.append(e)
         self.stack.append(e)
         if name == "msqrt":
-            self.output += "sqrt("
-        if name == "mrow" and parent.name in ("mfrac", "msub", "munder"):
-            self.output += "("
+            self.write("sqrt")
+            # separate write for opening bracket to ensure only the
+            # bracket is set as prevchar
+            self.write("(")
+        if name == "mrow" and parent and \
+                              parent.name in ("mfrac", "msub", "munder"):
+            self.write("(")
 
     def endElementNS(self, name, qname): 
         if self.skip:
@@ -55,32 +60,47 @@ class MathMLHandler(sax.ContentHandler):
         self.previousNode = currentNode
         parent = currentNode.parent
         parentname = parent and parent.name or ""
-        if parentname == "msup" and len(parent.children) == 1:
-            self.output += "^"
-        if parentname in ("msub", "munder") and len(parent.children) == 1:
-            self.output += "_"
-        if name == "mrow" and parent.name in ("mfrac", "msub", "munder"):
-            self.output += ")"
-        if parentname == "mfrac" and len(parent.children) == 1:
-            self.output += "/"
+        if parent:
+            if parentname == "msup" and len(parent.children) == 1:
+                self.write("^")
+            if parentname in ("msub", "munder") and len(parent.children) == 1:
+                self.write("_")
+            if name == "mrow" and parent.name in ("mfrac", "msub", "munder"):
+                self.write(")")
+            if parentname == "mfrac" and len(parent.children) == 1:
+                self.write("/")
         if name == "msqrt":
-            self.output += ")"
+            self.write(")")
 
     def characters(self, content):
         if self.skip:
             return
         key = (self.currentNode.name, content)
         content = symbolmap.get(key, content)
-        prevchar = self.output and self.output[-1] or ""
-        symbol = prevchar + content 
-        if prevchar and symbol not in atoms and \
-                        content not in atoms and \
-                        prevchar not in atoms:
-            self.output += ' '
+        symbol = self.prevchar + content 
+        if self.prevchar and symbol not in atoms and \
+                             content not in atoms and \
+                             self.prevchar not in atoms:
+            self.write(' ')
+        elif content not in atoms and len(content) > 1:
+            # add spaces between characters that are not recognized
+            # symbols
+            s = ""
+            for char in content:
+                if s and s[-1] not in string.digits:
+                    s += " "
+                s += char
+            content = s
+
         # pad in with spaces
         if content in ('in', '!in'):
             content = ' %s ' % content
+        self.prevchar = content
+        self.write(content)
+
+    def write(self, content):
         self.output += content
+        self.prevchar = content
 
 def convert(mathml):
     handler = MathMLHandler()
