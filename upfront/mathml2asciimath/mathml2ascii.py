@@ -55,6 +55,9 @@ class MathMLHandler(sax.ContentHandler):
                               parent.name in ("mfrac", "msub", "munder"):
             self.write("(")
 
+        if name == "mover":
+            self.write("__mover_marker__")
+
     def endElementNS(self, name, qname): 
         if self.skip:
             return
@@ -78,8 +81,11 @@ class MathMLHandler(sax.ContentHandler):
     def characters(self, content):
         if self.skip:
             return
-        key = (self.currentNode.name, content)
-        content = symbolmap.get(key, content)
+        for nodename in (self.currentNode.name, self.currentNode.parent.name):
+            key = (nodename, content)
+            if symbolmap.has_key(key):
+                content = symbolmap.get(key)
+
         symbol = self.prevchar + content 
         if self.prevchar and symbol not in atoms and \
                              content not in atoms and \
@@ -97,6 +103,12 @@ class MathMLHandler(sax.ContentHandler):
                                        (char, hex(ord(char))))
                 s += char
             content = s
+
+        if self.currentNode.parent.name == 'mover':
+            if content in ('hat', 'bar', 'vec', 'dot'):
+                self.output = self.output.replace('__mover_marker__',
+                                                  " %s" % content)
+                return
 
         # pad in with spaces
         if content in ('in', '!in'):
