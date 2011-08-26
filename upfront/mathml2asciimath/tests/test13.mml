@@ -1,0 +1,32 @@
+<math title="Delta A B C has A hat B C =90^@, B hat A C =35^@">
+  <mstyle mathsize="1em" mathcolor="blue" fontfamily="serif" displaystyle="true">
+    <mo>&#x394;</mo>
+    <mi>A</mi>
+    <mi>B</mi>
+    <mi>C</mi>
+    <mo>has</mo>
+    <mi>A</mi>
+    <mover>
+      <mi>B</mi>
+      <mo>^</mo>
+    </mover>
+    <mi>C</mi>
+    <mo>=</mo>
+    <msup>
+      <mn>90</mn>
+      <mo>&#x26AC;</mo>
+    </msup>
+    <mo>,</mo>
+    <mi>B</mi>
+    <mover>
+      <mi>A</mi>
+      <mo>^</mo>
+    </mover>
+    <mi>C</mi>
+    <mo>=</mo>
+    <msup>
+      <mn>35</mn>
+      <mo>&#x26AC;</mo>
+    </msup>
+  </mstyle>
+</math>
