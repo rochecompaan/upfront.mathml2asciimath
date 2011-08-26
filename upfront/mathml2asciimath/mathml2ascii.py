@@ -23,6 +23,9 @@ atoms = symbolmap.values()
 atoms.extend(d for d in string.digits)
 atoms.extend(['+', '-', '='])
 
+known_chars = string.digits + string.ascii_letters + string.punctuation
+known_chars += "".join(atoms)
+
 class MathMLHandler(sax.ContentHandler):
     """ SAX ContentHandler for converting MathML to ASCIIMath.
     """
@@ -89,6 +92,9 @@ class MathMLHandler(sax.ContentHandler):
             for char in content:
                 if s and s[-1] not in string.digits:
                     s += " "
+                if char not in known_chars:
+                    raise RuntimeError("unknown character: %s (%s)" % 
+                                       (char, hex(ord(char))))
                 s += char
             content = s
 
