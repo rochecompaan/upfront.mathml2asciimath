@@ -69,6 +69,8 @@ class MathMLHandler(sax.ContentHandler):
         self.previousNode = currentNode
         parent = currentNode.parent
         parentname = parent and parent.name or ""
+        if name in ("msqrt", "mfenced"):
+            self.write(")")
         if parent:
             if parentname == "msup" and len(parent.children) == 1:
                 self.write("^")
@@ -78,8 +80,6 @@ class MathMLHandler(sax.ContentHandler):
                 self.write(")")
             if parentname == "mfrac" and len(parent.children) == 1:
                 self.write("/")
-        if name in ("msqrt", "mfenced"):
-            self.write(")")
 
     def characters(self, content):
         if self.skip:
