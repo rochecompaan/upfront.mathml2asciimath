@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+<math xmlns="http://www.w3.org/1998/Math/MathML" title="x^2+y^2-52=0">
   <semantics>
     <mrow>
       <mrow>
@@ -20,6 +20,6 @@
       <mi>=</mi>
       <mn>0</mn>
     </mrow>
-    <annotation>x^2 + y^2 - 52 = 0\n</annotation>
+    <annotation>x^2 + y^2 - 52 = 0</annotation>
   </semantics>
 </math>

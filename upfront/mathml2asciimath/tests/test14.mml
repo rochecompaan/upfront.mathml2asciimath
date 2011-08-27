@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
 <math title="((7a)/b^3)^2">
-  <mstyle mathsize="1em" mathcolor="blue" fontfamily="serif" displaystyle="true">
+  <semantics>
     <msup>
-      <mrow>
-        <mo>(</mo>
+      <mfenced>
         <mfrac>
           <mrow>
             <mn>7</mn>
@@ -14,9 +13,9 @@
             <mn>3</mn>
           </msup>
         </mfrac>
-        <mo>)</mo>
-      </mrow>
+      </mfenced>
       <mn>2</mn>
     </msup>
-  </mstyle>
+    <annotation>left ( {7 a} over {b^3} right )^2</annotation>
+  </semantics>
 </math>
