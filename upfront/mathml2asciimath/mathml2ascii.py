@@ -51,12 +51,15 @@ class MathMLHandler(sax.ContentHandler):
             # separate write for opening bracket to ensure only the
             # bracket is set as prevchar
             self.write("(")
-        if name == "mrow" and parent and \
+        elif name == "mrow" and parent and \
                               parent.name in ("mfrac", "msub", "munder"):
             self.write("(")
 
-        if name == "mover":
+        elif name == "mover":
             self.write("__mover_marker__")
+
+        elif name == "mfenced":
+            self.write("(")
 
     def endElementNS(self, name, qname): 
         if self.skip:
@@ -71,17 +74,19 @@ class MathMLHandler(sax.ContentHandler):
                 self.write("^")
             if parentname in ("msub", "munder") and len(parent.children) == 1:
                 self.write("_")
-            if name == "mrow" and parent.name in ("mfrac", "msub", "munder"):
+            if name == "mrow" and parentname in ("mfrac", "msub", "munder"):
                 self.write(")")
             if parentname == "mfrac" and len(parent.children) == 1:
                 self.write("/")
-        if name == "msqrt":
+        if name in ("msqrt", "mfenced"):
             self.write(")")
 
     def characters(self, content):
         if self.skip:
             return
-        for nodename in (self.currentNode.name, self.currentNode.parent.name):
+        parentname = self.currentNode.parent and \
+            self.currentNode.parent.name or None
+        for nodename in (self.currentNode.name, parentname):
             key = (nodename, content)
             if symbolmap.has_key(key):
                 content = symbolmap.get(key)
@@ -104,7 +109,7 @@ class MathMLHandler(sax.ContentHandler):
                 s += char
             content = s
 
-        if self.currentNode.parent.name == 'mover':
+        if parentname == 'mover':
             if content in ('hat', 'bar', 'vec', 'dot'):
                 self.output = self.output.replace('__mover_marker__',
                                                   " %s" % content)
