@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<math title="((7a)/b^3)^2">
+  <mstyle mathsize="1em" mathcolor="blue" fontfamily="serif" displaystyle="true">
+    <msup>
+      <mrow>
+        <mo>(</mo>
+        <mfrac>
+          <mrow>
+            <mn>7</mn>
+            <mi>a</mi>
+          </mrow>
+          <msup>
+            <mi>b</mi>
+            <mn>3</mn>
+          </msup>
+        </mfrac>
+        <mo>)</mo>
+      </mrow>
+      <mn>2</mn>
+    </msup>
+  </mstyle>
+</math>
