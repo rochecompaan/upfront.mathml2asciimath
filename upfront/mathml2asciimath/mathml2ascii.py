@@ -66,29 +66,34 @@ class MathMLHandler(sax.ContentHandler):
             return
         name = name[-1]
         currentNode = self.stack.pop()
-        self.previousNode = currentNode
         parent = currentNode.parent
         parentname = parent and parent.name or ""
         if name in ("msqrt", "mfenced"):
             self.write(")")
         if parent:
+            if name == "mrow" and parentname in ("mfrac", "msub", "munder"):
+                # don't duplicate brackets
+                if not (self.output[-1] == ')' and \
+                        self.previousNode.name == 'mo'):
+                    self.write(")")
             if parentname == "msup" and len(parent.children) == 1:
                 self.write("^")
             if parentname in ("msub", "munder") and len(parent.children) == 1:
                 self.write("_")
-            if name == "mrow" and parentname in ("mfrac", "msub", "munder"):
-                self.write(")")
             if parentname == "mfrac" and len(parent.children) == 1:
                 self.write("/")
         if name == "mover" and "__mover_marker__" in self.output:
             raise RuntimeError("Unrecognised mover symbol in %s" % self.output)
 
+        self.previousNode = currentNode
+
     def characters(self, content):
         if self.skip:
             return
+        name = self.currentNode.name
         parentname = self.currentNode.parent and \
             self.currentNode.parent.name or None
-        for nodename in (self.currentNode.name, parentname):
+        for nodename in (name, parentname):
             key = (nodename, content)
             if symbolmap.has_key(key):
                 content = symbolmap.get(key)
@@ -116,6 +121,12 @@ class MathMLHandler(sax.ContentHandler):
                 self.output = self.output.replace('__mover_marker__',
                                                   " %s" % content)
                 return
+
+        # don't duplicate brackets. closing bracket handled in
+        # endElementNS
+        if content == "(" and name == "mo" and parentname == "mrow" and \
+                self.output[-1] == content:
+            return
 
         # pad in with spaces
         if content in ('in', '!in'):
