@@ -80,6 +80,8 @@ class MathMLHandler(sax.ContentHandler):
                 self.write(")")
             if parentname == "mfrac" and len(parent.children) == 1:
                 self.write("/")
+        if name == "mover" and "__mover_marker__" in self.output:
+            raise RuntimeError("Unrecognised mover symbol in %s" % self.output)
 
     def characters(self, content):
         if self.skip:
@@ -110,7 +112,7 @@ class MathMLHandler(sax.ContentHandler):
             content = s
 
         if parentname == 'mover':
-            if content in ('hat', 'bar', 'vec', 'dot'):
+            if len(self.currentNode.parent.children) == 2:
                 self.output = self.output.replace('__mover_marker__',
                                                   " %s" % content)
                 return
