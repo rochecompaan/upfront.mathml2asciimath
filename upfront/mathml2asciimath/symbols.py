@@ -171,6 +171,7 @@ AMsymbols = [
 {'input':"ZZ",      'tag':"mo", 'output':u"\u2124",  'ttype':CONST},
 {'input':"f",       'tag':"mi", 'output':"f",       'ttype':UNARY, 'func':True},
 {'input':"g",       'tag':"mi", 'output':"g",       'ttype':UNARY, 'func':True},
+{'input':"o",       'tag':"mi", 'output':u"\u00B0",  'ttype':CONST},
 
 # standard functions
 {'input':"lim",  'tag':"mo", 'output':"lim",  'ttype':UNDEROVER},
@@ -218,6 +219,7 @@ AMsymbols = [
 {'input':"stackrel",  'tag':"mover",  'output':"stackrel", 'ttype':BINARY},
 {'input':"_",         'tag':"msub",   'output':"_",        'ttype':INFIX},
 {'input':"^",         'tag':"msup",   'output':"^",        'ttype':INFIX},
+{'input':"hat",       'tag':"mover",  'output':u"\u0302",   'ttype':UNARY},
 {'input':"hat",       'tag':"mover",  'output':u"\u005E",   'ttype':UNARY},
 {'input':"bar",       'tag':"mover",  'output':u"\u00AF",   'ttype':UNARY},
 {'input':"vec",       'tag':"mover",  'output':u"\u2192",   'ttype':UNARY},
