@@ -124,8 +124,8 @@ class MathMLHandler(sax.ContentHandler):
 
         # don't duplicate brackets. closing bracket handled in
         # endElementNS
-        if content == "(" and name == "mo" and parentname == "mrow" and \
-                self.output[-1] == content:
+        if len(self.output) > 0 and content == "(" and name == "mo" and \
+                parentname == "mrow" and self.output[-1] == content:
             return
 
         # pad in with spaces
