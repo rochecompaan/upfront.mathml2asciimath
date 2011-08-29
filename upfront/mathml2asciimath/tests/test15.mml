@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <semantics>
+    <mmultiscripts>
+      <mi>U</mi>
+      <mprescripts/>
+      <mn>92</mn>
+      <mn>234</mn>
+    </mmultiscripts>
+    <annotation>U lsup{234} lsub{92}</annotation>
+  </semantics>
+</math>
