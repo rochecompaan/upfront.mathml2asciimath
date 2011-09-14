@@ -245,7 +245,9 @@ AMsymbols = [
 {'input':"mathfrak",  'tag':"mstyle", 'output':"mathfrak", 'ttype':UNARY}
 ];
 
+symboltagmap = {}
 symbolmap = {}
 for symbol in AMsymbols:
     key = (symbol['tag'], symbol['output'])
-    symbolmap[key] = symbol['input']
+    symboltagmap[key] = symbol['input']
+    symbolmap[symbol['output']] = symbol['input']
