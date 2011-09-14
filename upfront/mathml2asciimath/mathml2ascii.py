@@ -7,7 +7,7 @@ from xml import sax
 from xml.sax.saxutils import XMLGenerator
 from cStringIO import StringIO
 
-from symbols import symbolmap
+from symbols import symboltagmap, symbolmap
 
 class Element:
 
@@ -17,14 +17,21 @@ class Element:
         self.children = []
 
 tags_handled = ("math", "mrow", "mo", "mi", "mn", "mfrac", "msub",
-    "msup", "munder", "msqrt")
+    "msup", "munder", "munderover", "msqrt", "mtext")
 
-atoms = symbolmap.values()
+atoms = symboltagmap.values()
 atoms.extend(d for d in string.digits)
 atoms.extend(['+', '-', '='])
 
 known_chars = string.digits + string.ascii_letters + string.punctuation
 known_chars += "".join(atoms)
+
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
 
 class MathMLHandler(sax.ContentHandler):
     """ SAX ContentHandler for converting MathML to ASCIIMath.
@@ -39,7 +46,8 @@ class MathMLHandler(sax.ContentHandler):
 
     def startElementNS(self, name, qname, attributes):
         name = name[-1]
-        self.skip = name not in tags_handled
+        parentnames = [n.name for n in self.stack]
+        self.skip = name not in tags_handled or "mphantom" in parentnames
         parent = self.stack and self.stack[-1] or None
         e = Element(name, parent)
         self.currentNode = e
@@ -52,7 +60,8 @@ class MathMLHandler(sax.ContentHandler):
             # bracket is set as prevchar
             self.write("(")
         elif name == "mrow" and parent and \
-                              parent.name in ("mfrac", "msub", "munder"):
+                                parent.name in ("mfrac", "msub", "munder",
+                                                "munderover"):
             self.write("(")
 
         elif name == "mover":
@@ -61,17 +70,23 @@ class MathMLHandler(sax.ContentHandler):
         elif name == "mfenced":
             self.write("(")
 
+        elif name == "mtext":
+            self.write('"')
+
     def endElementNS(self, name, qname): 
+        currentNode = self.stack.pop()
         if self.skip:
             return
         name = name[-1]
-        currentNode = self.stack.pop()
         parent = currentNode.parent
         parentname = parent and parent.name or ""
         if name in ("msqrt", "mfenced"):
             self.write(")")
+        if name == "mtext":
+            self.write('"')
         if parent:
-            if name == "mrow" and parentname in ("mfrac", "msub", "munder"):
+            if name == "mrow" and parentname in ("mfrac", "msub", "munder",
+                                                 "munderover"):
                 # don't duplicate brackets
                 if not (self.output[-1] == ')' and \
                         self.previousNode.name == 'mo'):
@@ -82,6 +97,11 @@ class MathMLHandler(sax.ContentHandler):
                 self.write("_")
             if parentname == "mfrac" and len(parent.children) == 1:
                 self.write("/")
+            if parentname == "munderover":
+                if len(parent.children) == 1:
+                    self.write("_")
+                elif len(parent.children) == 2:
+                    self.write("^")
         if name == "mover" and "__mover_marker__" in self.output:
             raise RuntimeError("Unrecognised mover symbol in %s" % self.output)
 
@@ -91,17 +111,29 @@ class MathMLHandler(sax.ContentHandler):
         if self.skip:
             return
         name = self.currentNode.name
+        # write out mtext as we receive it
+        if name == 'mtext':
+            self.write(content)
+            return
         parentname = self.currentNode.parent and \
             self.currentNode.parent.name or None
         for nodename in (name, parentname):
             key = (nodename, content)
-            if symbolmap.has_key(key):
-                content = symbolmap.get(key)
+            if symboltagmap.has_key(key):
+                content = symboltagmap.get(key)
+            # let's try and map it anyway since some symbols are used in
+            # both mo and mi tags
+            elif symbolmap.has_key(content):
+                content = symbolmap.get(content)
 
         symbol = self.prevchar + content 
+
         if self.prevchar and symbol not in atoms and \
                              content not in atoms and \
                              self.prevchar not in atoms:
+            self.write(' ')
+        # don't concatenate adjacent numbers
+        elif self.prevchar and is_number(self.prevchar) and is_number(content):
             self.write(' ')
         elif content not in atoms and len(content) > 1:
             # add spaces between characters that are not recognized
