@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<math xmlns="http://www.w3.org/1998/Math/MathML" title="=nxx8. 31xx(273+25)">
+  <mrow>
+    <mphantom>
+      <mstyle>
+        <mrow>
+          <mi>xxx</mi>
+        </mrow>
+      </mstyle>
+    </mphantom>
+    <mi>=</mi>
+    <mrow>
+      <mrow>
+        <mi>n</mi>
+        <mi>&#xD7;</mi>
+        <mn>8.31</mn>
+      </mrow>
+      <mi>&#xD7;</mi>
+      <mrow>
+        <mo>(</mo>
+        <mrow>
+          <mn>273</mn>
+          <mo>+</mo>
+          <mn>25</mn>
+        </mrow>
+        <mo>)</mo>
+      </mrow>
+    </mrow>
+  </mrow>
+</math>

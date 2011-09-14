@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<math xmlns="http://www.w3.org/1998/Math/MathML" title='n="molecular mass"/"empirical mass"'>
+  <semantics>
+    <mrow>
+      <mi>n</mi>
+      <mi>=</mi>
+      <mfrac>
+        <mtext>molecular mass</mtext>
+        <mtext>empirical mass</mtext>
+      </mfrac>
+    </mrow>
+    <annotation>n = "molecular mass" over "empirical mass"</annotation>
+  </semantics>
+</math>
