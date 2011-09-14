@@ -27,7 +27,7 @@ class TestConvert(unittest.TestCase):
             asciimath = mathnode.getAttribute('title')
             converted = convert(mathml)
             self.assertEqual(asciimath, converted,
-                "%s != %s (%s)" % (asciimath, converted, filename))
+                "'%s' != '%s' (%s)" % (asciimath, converted, filename))
 
 
 
