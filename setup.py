@@ -24,7 +24,7 @@ setup(name='upfront.mathml2asciimath',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
+          'argparse',
       ],
       entry_points="""
       # -*- Entry points: -*-
